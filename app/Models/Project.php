@@ -11,6 +11,8 @@ class Project extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -19,6 +21,7 @@ class Project extends Model
     protected $fillable = [
         'name',
         'description',
+        'user_id',
     ];
 
     /**
@@ -39,6 +42,18 @@ class Project extends Model
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'projects_categories', 'project_id', 'category_id');
+    }
+
+    /**
+     * Turn project to array.
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        $result = parent::toArray();
+        $result['categories'] = $this->categories()->get();
+        return $result;
     }
 
 }
