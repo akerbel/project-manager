@@ -3,14 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class CategoryController extends Controller
 {
+    use TryCatchTrait;
+
+    /**
+     * Get model name of the controller.
+     *
+     * @return string
+     */
+     protected function getModelName(): string
+     {
+         return 'category';
+     }
 
     /**
      * Create new category.
@@ -107,31 +115,6 @@ class CategoryController extends Controller
             $categories = Category::all();
             return response()->json($categories->toArray());
         });
-    }
-
-    /**
-     * Try a code and catch typical exceptions.
-     *
-     * @param $func
-     *
-     * @return JsonResponse
-     */
-    protected function tryCatch($func) {
-        try {
-            return $func();
-        }
-        catch (ValidationException $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
-        }
-        catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Category is not found'], 404);
-        }
-        catch (AuthorizationException $e) {
-            return response()->json(['error' => 'Access is forbidden.'], 403);
-        }
-        catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
     }
 
 }

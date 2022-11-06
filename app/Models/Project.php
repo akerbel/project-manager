@@ -64,7 +64,6 @@ class Project extends Model
     {
         $result = parent::toArray();
         $result['categories'] = $this->categories()->get();
-        $result['situation'] = $this->situations()->get();
         return $result;
     }
 

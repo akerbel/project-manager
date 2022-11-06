@@ -4,7 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SituationController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,10 +17,6 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -42,5 +38,12 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::patch('/situation/{id}', [SituationController::class, 'patch']);
     Route::delete('/situation/{id}', [SituationController::class, 'delete']);
     Route::get('/situation/{id}', [SituationController::class, 'get']);
+    Route::get('/situations/{project_id}', [SituationController::class, 'getAll']);
+
+    Route::post('/user', [UserController::class, 'post']);
+    Route::patch('/user/{id?}', [UserController::class, 'patch']);
+    Route::delete('/user/{id}', [UserController::class, 'delete']);
+    Route::get('/user/{id?}', [UserController::class, 'get']);
+    Route::get('/users', [UserController::class, 'getAll']);
 });
 

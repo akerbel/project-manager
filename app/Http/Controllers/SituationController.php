@@ -2,19 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Project;
 use App\Models\Situation;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Contracts\Validation\Validator;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class SituationController extends Controller
 {
+    use TryCatchTrait;
+
+    /**
+     * Get model name of the controller.
+     *
+     * @return string
+     */
+    protected function getModelName(): string
+    {
+        return 'situation';
+    }
+
     /**
      * Create a situation.
      *
@@ -117,11 +124,11 @@ class SituationController extends Controller
     /**
      * Get the situation.
      *
-     * @param $id
+     * @param int $id
      *
      * @return JsonResponse
      */
-    public function get($id): JsonResponse {
+    public function get(int $id): JsonResponse {
         return $this->tryCatch(function() use ($id) {
             $situation = Situation::findOrFail($id);
             $this->authorize('view', $situation);
@@ -130,27 +137,30 @@ class SituationController extends Controller
     }
 
     /**
-     * Try a code and catch typical exceptions.
+     * Get all situations of the project.
      *
-     * @param $func
+     * @param int $project_id
      *
      * @return JsonResponse
      */
-    protected function tryCatch($func) {
-        try {
-            return $func();
-        }
-        catch (ValidationException $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
-        }
-        catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Situation is not found'], 404);
-        }
-        catch (AuthorizationException $e) {
-            return response()->json(['error' => 'Access is forbidden.'], 403);
-        }
-        catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+    public function getAll(int $project_id): JsonResponse
+    {
+        return $this->tryCatch(function() use ($project_id) {
+            $this->authorize('viewAny', Situation::class);
+
+            // Validate project.
+            $project = Project::find($project_id);
+            if (empty($project)) {
+                throw ValidationException::withMessages(['project_id' => 'Project is not found']);
+            }
+
+            // Check that user is able to view the project.
+            $this->authorize('view', $project);
+
+            $result = Situation::where('project_id', $project->id)->get();
+
+            return response()->json($result);
+        });
     }
+
 }

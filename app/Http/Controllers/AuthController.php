@@ -6,7 +6,6 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
@@ -29,9 +28,9 @@ class AuthController extends Controller
 
             $user = new User([
                 'name' => $post_data['name'],
-                'email' => $post_data['email'],
-                'password' => Hash::make($post_data['password']),
             ]);
+            $user->setEmail($post_data['email']);
+            $user->setPassword($post_data['password']);
             $user->save();
             return response()->json();
         }
