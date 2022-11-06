@@ -57,6 +57,11 @@ class User extends Authenticatable
         return $this->hasMany(Project::class);
     }
 
+    /**
+     * Return true if user is admin.
+     *
+     * @return bool
+     */
     public function isAdmin(): bool
     {
         return $this->role === self::ADMIN_ROLE;

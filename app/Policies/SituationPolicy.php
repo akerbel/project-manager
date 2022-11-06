@@ -2,24 +2,24 @@
 
 namespace App\Policies;
 
-use App\Models\Project;
+use App\Models\Situation;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ProjectPolicy
+class SituationPolicy
 {
     use HandlesAuthorization;
 
     /**
      * Check if project belongs to user.
      *
-     * @param Project $project
+     * @param Situation $situation
      * @param User $user
      *
      * @return bool
      */
-    protected function isProjectBelongsToUser(Project $project, User $user): bool {
-        return $user->id === $project->user_id;
+    protected function isSituationBelongsToUser(Situation $situation, User $user): bool {
+        return $user->id === $situation->project->user_id;
     }
 
     /**
@@ -30,7 +30,6 @@ class ProjectPolicy
      */
     public function viewAny(User $user)
     {
-        // All users can view bunches of projects.
         return true;
     }
 
@@ -38,12 +37,12 @@ class ProjectPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Project  $project
+     * @param  \App\Models\Situation  $situation
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Project $project)
+    public function view(User $user, Situation $situation)
     {
-        return $user->isAdmin() || $this->isProjectBelongsToUser($project, $user);
+        return $this->isSituationBelongsToUser($situation, $user);
     }
 
     /**
@@ -54,7 +53,6 @@ class ProjectPolicy
      */
     public function create(User $user)
     {
-        // All users can create projects.
         return true;
     }
 
@@ -62,49 +60,47 @@ class ProjectPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Project  $project
+     * @param  \App\Models\Situation  $situation
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Project $project)
+    public function update(User $user, Situation $situation)
     {
-        return $user->isAdmin() || $this->isProjectBelongsToUser($project, $user);
+        return $this->isSituationBelongsToUser($situation, $user);
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Project  $project
+     * @param  \App\Models\Situation  $situation
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Project $project)
+    public function delete(User $user, Situation $situation)
     {
-        return $user->isAdmin() || $this->isProjectBelongsToUser($project, $user);
+        return $this->isSituationBelongsToUser($situation, $user);
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Project  $project
+     * @param  \App\Models\Situation  $situation
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Project $project)
+    public function restore(User $user, Situation $situation)
     {
-        return $user->isAdmin() || $this->isProjectBelongsToUser($project, $user);
+        return $this->isSituationBelongsToUser($situation, $user);
     }
 
     /**
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Project  $project
+     * @param  \App\Models\Situation  $situation
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Project $project)
+    public function forceDelete(User $user, Situation $situation)
     {
-        return $user->isAdmin() || $this->isProjectBelongsToUser($project, $user);
+        return $this->isSituationBelongsToUser($situation, $user);
     }
-
-
 }

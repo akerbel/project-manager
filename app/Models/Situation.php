@@ -10,6 +10,21 @@ class Situation extends Model
 {
     use HasFactory;
 
+    const STATUS_PLANNED = 0;
+    const STATUS_ONGOING = 1;
+    const STATUS_COMPLETED = 2;
+
+    public $timestamps = false;
+
+    /**
+     * @var int[] Array of allowed status numbers.
+     */
+    public static array $allowedStatuses = [
+        self::STATUS_PLANNED => 'Planned',
+        self::STATUS_ONGOING => 'Ongoing',
+        self::STATUS_COMPLETED => 'Completed',
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -29,6 +44,18 @@ class Situation extends Model
     public function project(): BelongsTo
     {
         return $this->belongsTo(Project::class);
+    }
+
+    /**
+     * Check if status number is allowed number.
+     *
+     * @param int $status
+     *
+     * @return bool
+     */
+    public static function isStatusAllowed(int $status): bool
+    {
+        return in_array($status, array_keys(self::$allowedStatuses));
     }
 
 }

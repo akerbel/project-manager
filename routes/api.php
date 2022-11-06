@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SituationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,5 +37,10 @@ Route::middleware('auth:sanctum')->group(function() {
     Route::delete('/project/{id}', [ProjectController::class, 'delete']);
     Route::get('/project/{id}', [ProjectController::class, 'get']);
     Route::get('/projects', [ProjectController::class, 'getAll']);
+
+    Route::post('/situation', [SituationController::class, 'post']);
+    Route::patch('/situation/{id}', [SituationController::class, 'patch']);
+    Route::delete('/situation/{id}', [SituationController::class, 'delete']);
+    Route::get('/situation/{id}', [SituationController::class, 'get']);
 });
 

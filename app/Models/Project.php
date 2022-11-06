@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Project extends Model
 {
@@ -45,6 +46,16 @@ class Project extends Model
     }
 
     /**
+     * Project situations.
+     *
+     * @return HasMany
+     */
+    public function situations(): HasMany
+    {
+        return $this->hasMany(Situation::class);
+    }
+
+    /**
      * Turn project to array.
      *
      * @return array
@@ -53,6 +64,7 @@ class Project extends Model
     {
         $result = parent::toArray();
         $result['categories'] = $this->categories()->get();
+        $result['situation'] = $this->situations()->get();
         return $result;
     }
 
