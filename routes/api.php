@@ -19,9 +19,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-Route::middleware('auth:sanctum')->group(function() {
+Route::get('/email/verify', [AuthController::class, 'emailVerificationNotice'])->middleware('auth:sanctum')->name('verification.notice');
+Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'emailVerify'])->middleware(['auth:sanctum', 'signed'])->name('verification.verify');
+Route::post('/email/verification-notification', [AuthController::class, 'emailVerifySend'])->middleware(['auth:sanctum', 'throttle:6,1'])->name('verification.send');
+
+Route::middleware(['auth:sanctum', 'verified'])->group(function() {
     Route::post('/category', [CategoryController::class, 'post']);
     Route::put('/category/{id}', [CategoryController::class, 'put']);
     Route::delete('/category/{id}', [CategoryController::class, 'delete']);

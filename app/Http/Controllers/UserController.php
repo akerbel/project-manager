@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -45,7 +46,12 @@ class UserController extends Controller
             $user->setEmail($post_data['email']);
             $user->setPassword($post_data['password']);
             $user->save();
-            return response()->json();
+
+            event(new Registered($user));
+
+            return response()->json([
+                'message' => 'Verification email was sent to user`s email address.'
+            ]);
         });
     }
 
@@ -85,7 +91,15 @@ class UserController extends Controller
             }
 
             $user->save();
-            return response()->json();
+
+            if (!empty($post_data['email'])) {
+                event(new Registered($user));
+                $result = [
+                    'message' => 'Verification email was sent to user`s email address.'
+                ];
+            }
+
+            return response()->json($result ?? []);
         });
     }
 

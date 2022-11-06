@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,7 +34,12 @@ class AuthController extends Controller
             $user->setEmail($post_data['email']);
             $user->setPassword($post_data['password']);
             $user->save();
-            return response()->json();
+
+            event(new Registered($user));
+
+            return response()->json([
+                'message' => 'Verification email was sent to your email address.'
+            ]);
         }
         catch (ValidationException $e) {
             return response()->json(['error' => $e->getMessage()], 400);
@@ -67,6 +74,51 @@ class AuthController extends Controller
             return response()->json(['error' => $e->getMessage()], !empty($e->getCode()) ? $e->getCode() : 500);
         }
 
+    }
+
+    /**
+     * Show notice, that email verification link was sent.
+     *
+     * @return JsonResponse
+     */
+    public function emailVerificationNotice(): JsonResponse
+    {
+        return response()->json(['message' => 'Verification link sent!']);
+    }
+
+    /**
+     * Email verification link.
+     *
+     * @param EmailVerificationRequest $request
+     *
+     * @return JsonResponse
+     */
+    public function emailVerify(EmailVerificationRequest $request): JsonResponse
+    {
+        try {
+            $request->fulfill();
+            return response()->json(['message' => 'success']);
+        }
+        catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * Resend email verification link.
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
+    public function emailVerifySend(Request $request): JsonResponse {
+        try {
+            $request->user()->sendEmailVerificationNotification();
+            return response()->json(['message' => 'Verification link sent!']);
+        }
+        catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
 }
