@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class CategoryController extends Controller
 {
@@ -18,14 +21,21 @@ class CategoryController extends Controller
      */
     public function post(Request $request): JsonResponse
     {
-        $category = new Category([
-            'name' => $request->post('name'),
-            'description' => $request->post('description', ''),
-        ]);
-        $category->save();
-        return response()->json([
-            'id' => $category->id,
-        ]);
+        return $this->tryCatch(function() use ($request) {
+            $this->authorize('create', Category::class);
+            $post_data = $request->validate([
+                'name' => 'required|string',
+                'description' => 'string',
+            ]);
+            $category = new Category([
+                'name' => $post_data['name'],
+                'description' => $post_data['description'] ?? '',
+            ]);
+            $category->save();
+            return response()->json([
+                'id' => $category->id,
+            ]);
+        });
     }
 
     /**
@@ -38,11 +48,18 @@ class CategoryController extends Controller
      */
     public function put(Request $request, int $id): JsonResponse
     {
-        $category = Category::findOrFail($id);
-        $category->name = $request->input('name');
-        $category->description = $request->input('description', '');
-        $category->save();
-        return response()->json();
+        return $this->tryCatch(function() use ($request, $id) {
+            $post_data = $request->validate([
+                'name' => 'required|string',
+                'description' => 'string',
+            ]);
+            $category = Category::findOrFail($id);
+            $this->authorize('update', $category);
+            $category->name = $post_data['name'];
+            $category->description = $post_data['description'] ?? '';
+            $category->save();
+            return response()->json();
+        });
     }
 
     /**
@@ -54,8 +71,12 @@ class CategoryController extends Controller
      */
     public function delete(int $id): JsonResponse
     {
-        Category::destroy($id);
-        return response()->json();
+        return $this->tryCatch(function() use ($id) {
+            $category = Category::findOrFail($id);
+            $this->authorize('delete', $category);
+            Category::destroy($id);
+            return response()->json();
+        });
     }
 
     /**
@@ -67,8 +88,11 @@ class CategoryController extends Controller
      */
     public function get(int $id): JsonResponse
     {
-        $category = Category::findOrFail($id);
-        return response()->json($category->toArray());
+        return $this->tryCatch(function() use ($id) {
+            $category = Category::findOrFail($id);
+            $this->authorize('view', $category);
+            return response()->json($category->toArray());
+        });
     }
 
     /**
@@ -78,8 +102,36 @@ class CategoryController extends Controller
      */
     public function getAll(): JsonResponse
     {
-        $categories = Category::all();
-        return response()->json($categories->toArray());
+        return $this->tryCatch(function() {
+            $this->authorize('viewAny', Category::class);
+            $categories = Category::all();
+            return response()->json($categories->toArray());
+        });
+    }
+
+    /**
+     * Try a code and catch typical exceptions.
+     *
+     * @param $func
+     *
+     * @return JsonResponse
+     */
+    protected function tryCatch($func) {
+        try {
+            return $func();
+        }
+        catch (ValidationException $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
+        catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Category is not found'], 404);
+        }
+        catch (AuthorizationException $e) {
+            return response()->json(['error' => 'Access is forbidden.'], 403);
+        }
+        catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Project;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -22,7 +23,8 @@ class ProjectController extends Controller
      */
     public function post(Request $request): JsonResponse
     {
-        try {
+        return $this->tryCatch(function() use ($request) {
+            $this->authorize('create', Project::class);
             $post_data = $request->validate([
                 'name' => 'required|string',
                 'description' => 'string',
@@ -38,13 +40,7 @@ class ProjectController extends Controller
             $project->categories()->attach($categories);
 
             return response()->json(['id' => $project->id]);
-        }
-        catch (ValidationException $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
-        }
-        catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        });
     }
 
     /**
@@ -56,8 +52,9 @@ class ProjectController extends Controller
      * @return JsonResponse
      */
     public function patch(Request $request, int $id): JsonResponse {
-        try {
+        return $this->tryCatch(function() use ($request, $id) {
             $project = Project::findOrFail($id);
+            $this->authorize('update', $project);
             $post_data = $request->validate([
                 'name' => 'string',
                 'description' => 'string',
@@ -76,16 +73,7 @@ class ProjectController extends Controller
             $project->save();
 
             return response()->json(['id' => $project->id]);
-        }
-        catch (ValidationException $e) {
-            return response()->json(['error' => $e->getMessage()], 400);
-        }
-        catch (ModelNotFoundException $e) {
-            return response()->json(['error' => 'Project is not found'], 404);
-        }
-        catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        });
     }
 
     /**
@@ -97,13 +85,12 @@ class ProjectController extends Controller
      */
     public function delete(int $id): JsonResponse
     {
-        try {
+        return $this->tryCatch(function() use ($id) {
+            $project = Project::findOrFail($id);
+            $this->authorize('delete', $project);
             Project::destroy($id);
             return response()->json();
-        }
-        catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        });
     }
 
     /**
@@ -114,16 +101,11 @@ class ProjectController extends Controller
      * @return JsonResponse
      */
     public function get($id): JsonResponse {
-        try {
+        return $this->tryCatch(function() use ($id) {
             $project = Project::findOrFail($id);
+            $this->authorize('view', $project);
             return response()->json($project->toArray());
-        }
-        catch (ModelNotFoundException $e) {
-                return response()->json(['error' => 'Project is not found'], 404);
-            }
-        catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        });
     }
 
     /**
@@ -133,8 +115,39 @@ class ProjectController extends Controller
      */
     public function getAll(): JsonResponse
     {
+        return $this->tryCatch(function() {
+            $this->authorize('viewAny', Project::class);
+            $user = Auth::user();
+            if ($user->isAdmin()) {
+                $result = Project::all();
+            }
+            else {
+                $result = Project::where('user_id', $user->id)->get();
+            }
+
+            return response()->json($result);
+        });
+    }
+
+    /**
+     * Try a code and catch typical exceptions.
+     *
+     * @param $func
+     *
+     * @return JsonResponse
+     */
+    protected function tryCatch($func) {
         try {
-            return response()->json(Project::all());
+            return $func();
+        }
+        catch (ValidationException $e) {
+            return response()->json(['error' => $e->getMessage()], 400);
+        }
+        catch (ModelNotFoundException $e) {
+            return response()->json(['error' => 'Project is not found'], 404);
+        }
+        catch (AuthorizationException $e) {
+            return response()->json(['error' => 'Access is forbidden.'], 403);
         }
         catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
