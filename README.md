@@ -7,6 +7,27 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Links
+- homepage - http://project-manager.local:89/
+- mailhog - http://project-manager.local:8025/
+- adminer - http://project-manager.local:8081/
+
+### Quick start
+1. Start docker containers: `./vendor/bin/sail up -d`
+2. Enter sail container: `docker exec -it project_manager-laravel.test-1 bash`
+3. Run migrations: `php artisan migrate`
+4. Have fun!
+
+### Running backend tests
+1. Enter sail container: `docker exec -it project_manager-laravel.test-1 bash`
+2. Run tests: `./vendor/bin/phpunit`
+
+### Promote user to admin
+1. Register a new user via GUI or API.
+2. Enter sail container: `docker exec -it project_manager-laravel.test-1 bash`
+3. Run command: `php artisan app:make-admin user@email.com`
+4. Have fun!
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:

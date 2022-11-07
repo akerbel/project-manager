@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use App\Models\Situation;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -151,7 +152,7 @@ class SituationController extends Controller
             // Validate project.
             $project = Project::find($project_id);
             if (empty($project)) {
-                throw ValidationException::withMessages(['project_id' => 'Project is not found']);
+                throw new ModelNotFoundException('Project is not found');
             }
 
             // Check that user is able to view the project.
