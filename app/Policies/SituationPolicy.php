@@ -19,7 +19,7 @@ class SituationPolicy
      * @return bool
      */
     protected function isSituationBelongsToUser(Situation $situation, User $user): bool {
-        return $user->id === $situation->project->user_id;
+        return $user->id === $situation->project->user_id || $user->isAdmin();
     }
 
     /**

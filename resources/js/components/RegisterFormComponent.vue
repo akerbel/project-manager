@@ -1,4 +1,7 @@
 <template>
+    <div class="account-buttons">
+        <button @click="this.$router.push('/login')">Login</button>
+    </div>
     <form class="login-form" @submit.prevent="singUpButtonPressed">
         <h4>Registrate</h4>
         <label for="name">Name: <input v-model="name" placeholder="Name"></label>

@@ -31,7 +31,7 @@ export const api = reactive({
         return {'Authorization': 'Bearer ' + api.getToken()};
     },
 
-    call: function(method, url, data) {
+    call: function(method, url, data = {}) {
         if (this.isLoggedIn()) {
             return axios({
                 method: method,

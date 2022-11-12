@@ -28,12 +28,25 @@ import LoginFormComponent from './components/LoginFormComponent.vue';
 app.component('login-form-component', LoginFormComponent);
 import RegisterFormComponent from './components/RegisterFormComponent.vue';
 app.component('register-form-component', RegisterFormComponent);
-import ProjectListComponent from './components/ProjectListComponent.vue';
+import ProjectListComponent from './components/Project/ProjectListComponent.vue';
 app.component('project-list-component', ProjectListComponent);
+import ProjectEditComponent from './components/Project/ProjectEditComponent.vue';
+app.component('project-edit-component', ProjectEditComponent);
+import SituationListComponent from './components/Situation/SituationListComponent.vue';
+app.component('situation-list-component', SituationListComponent);
+import SituationEditComponent from './components/Situation/SituationEditComponent.vue';
+app.component('situation-edit-component', SituationEditComponent);
 
+import vSelect from 'vue-select'
+app.component('v-select', vSelect)
 
 const routes = [
+    { path: '/', component: MainComponent },
     { path: '/projects', component: ProjectListComponent },
+    { path: '/project/:id', component: ProjectEditComponent },
+    { path: '/project/new', component: ProjectEditComponent },
+    { path: '/project/:projectId/situation/:situationId', component: SituationEditComponent },
+    { path: '/project/:projectId/situation/new', component: SituationEditComponent },
     { path: '/login', component: LoginFormComponent},
     { path: '/register', component: RegisterFormComponent },
 ]

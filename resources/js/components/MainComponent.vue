@@ -1,13 +1,7 @@
 <template>
     <div v-if="message" class="info-message">{{ message }}</div>
-    <div class="account-buttons">
+    <div v-if="showLogoutButton" class="account-buttons">
         <button @click="logout()">Logout</button>
-    </div>
-    <div class="account-buttons">
-        <button @click="goTo('login')">Login</button>
-    </div>
-    <div class="account-buttons">
-        <button @click="goTo('register')">Register</button>
     </div>
     <router-view></router-view>
 </template>
@@ -19,16 +13,19 @@ export default {
     data() {
         return {
             api,
+            showLogoutButton: false,
             message: ''
         }
     },
     watch: {
         'api.token'(newValue) {
             if (!api.isLoggedIn()) {
-                this.goTo('login');
+                this.$router.push('/login');
+                this.showLogoutButton = false;
             }
             else {
-                this.goTo('projects');
+                this.$router.push('/projects');
+                this.showLogoutButton = true;
             }
         },
         '$route.query.verified'(newValue) {
@@ -40,17 +37,13 @@ export default {
     methods: {
         logout() {
             api.dropToken();
-            this.goTo('login');
+            this.$router.push('/login');
         },
-
-        goTo(route) {
-            this.$router.push('/' + route);
-        }
     },
     mounted() {
         api.token = api.getToken();
         if (this.$route.query.verified === '1') {
-            this.message = 'Email is verified. Now you can sign in.'
+            this.message = 'Email is verified. Now you can sign in.';
         }
     }
 }

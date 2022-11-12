@@ -1,4 +1,7 @@
 <template>
+    <div class="account-buttons">
+        <button @click="this.$router.push('/register');">Register</button>
+    </div>
     <form class="login-form" @submit.prevent="loginButtonPressed">
         <h4>Login</h4>
         <label for="email">Email: <input v-model="email" placeholder="Email"></label>
