@@ -6,6 +6,9 @@
 
 import './bootstrap';
 import { createApp } from 'vue';
+import axios from 'axios';
+import VueAxios from 'vue-axios';
+import { createRouter, createWebHistory } from 'vue-router';
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -13,10 +16,32 @@ import { createApp } from 'vue';
  * to use in your application's views. An example is included for you.
  */
 
+
 const app = createApp({});
 
+app.use(VueAxios, axios);
+
+
+import MainComponent from './components/MainComponent.vue';
+app.component('main-component', MainComponent);
 import LoginFormComponent from './components/LoginFormComponent.vue';
 app.component('login-form-component', LoginFormComponent);
+import RegisterFormComponent from './components/RegisterFormComponent.vue';
+app.component('register-form-component', RegisterFormComponent);
+import ProjectListComponent from './components/ProjectListComponent.vue';
+app.component('project-list-component', ProjectListComponent);
+
+
+const routes = [
+    { path: '/projects', component: ProjectListComponent },
+    { path: '/login', component: LoginFormComponent},
+    { path: '/register', component: RegisterFormComponent },
+]
+const router = createRouter({
+    history: createWebHistory(),
+    routes,
+});
+app.use(router);
 
 /**
  * The following block of code may be used to automatically register your
@@ -36,4 +61,6 @@ app.component('login-form-component', LoginFormComponent);
  * scaffolding. Otherwise, you will need to add an element yourself.
  */
 
-app.mount('#app');
+router.isReady().then(() => {
+    app.mount('#app');
+});

@@ -23,7 +23,7 @@
     </head>
     <body class="antialiased">
         <div id="app">
-            <login-form-component></login-form-component>
+            <main-component></main-component>
         </div>
     </body>
 </html>

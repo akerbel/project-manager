@@ -5,13 +5,18 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
+    use VerifiesEmails;
+
     /**
      * Registration.
      *
@@ -89,15 +94,18 @@ class AuthController extends Controller
     /**
      * Email verification link.
      *
-     * @param EmailVerificationRequest $request
+     * @param Request $request
      *
-     * @return JsonResponse
+     * @return Response
      */
-    public function emailVerify(EmailVerificationRequest $request): JsonResponse
+    public function emailVerify(Request $request): Response
     {
         try {
-            $request->fulfill();
-            return response()->json(['message' => 'success']);
+            $request->setUserResolver(function () use ($request) {
+                return User::findOrFail($request->route('id'));
+            });
+            $this->redirectTo = '/?verified=1';
+            return $this->verify($request);
         }
         catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
