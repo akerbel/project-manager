@@ -37,6 +37,11 @@ app.component('situation-list-component', SituationListComponent);
 import SituationEditComponent from './components/Situation/SituationEditComponent.vue';
 app.component('situation-edit-component', SituationEditComponent);
 
+import MessageComponent from './components/MessageComponent.vue';
+app.component('message-component', MessageComponent);
+import InputComponent from './components/InputComponent.vue';
+app.component('input-component', InputComponent);
+
 import vSelect from 'vue-select'
 app.component('v-select', vSelect)
 

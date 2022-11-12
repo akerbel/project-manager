@@ -1,14 +1,27 @@
 <template>
-    <div class="account-buttons">
-        <button @click="this.$router.push('/register');">Register</button>
+    <div class="flex justify-center">
+        <form class="login-form flex justify-center flex-column" @submit.prevent="loginButtonPressed">
+            <h4 class="text-xl text-center font-bold">Login</h4>
+            <label for="email" class="font-bold m-1">
+                Email
+                <input v-model="email" placeholder="Email" class="m-2 p-1 rounded">
+            </label>
+            <label for="password" class="font-bold m-1">
+                Password
+                <input v-model="password" placeholder="Password" type="password" class="m-2 p-1 rounded">
+            </label>
+            <div class="buttons flex">
+                <button class="btn-login bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 mr-2 rounded">Login</button>
+                <button
+                    class="btn-register bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 mr-2 rounded"
+                    @click="this.$router.push('/register');"
+                >
+                    Registration
+                </button>
+            </div>
+            <message-component :message="message"></message-component>
+        </form>
     </div>
-    <form class="login-form" @submit.prevent="loginButtonPressed">
-        <h4>Login</h4>
-        <label for="email">Email: <input v-model="email" placeholder="Email"></label>
-        <label for="password">Password: <input v-model="password" placeholder="Password" type="password"></label>
-        <button class="login">Login</button>
-        <div v-if="message" class="error-message">{{ message }}</div>
-    </form>
 </template>
 
 <script>

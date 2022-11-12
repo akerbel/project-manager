@@ -1,20 +1,33 @@
 <template>
-    <div v-if="message" class="info-message">{{ message }}</div>
-    <div><button @click="this.$router.push('/project/' + $route.params.projectId)">Back</button></div>
-    <form class="situation-edit-form" @submit.prevent="saveSituation">
-        <h4 v-if="isNewSituation">Create new case</h4>
-        <h4 v-else>Edit Case #{{ situation.id }} <b>{{ situation.name }}</b></h4>
-        <label for="situation.name">Name: <input v-model="situation.name" required></label>
-        <label for="situation.description">Description: <textarea v-model="situation.description"></textarea></label>
-        <label for="situation.status">
-            Status:
-            <v-select
-                v-model="status"
-                :options="statusOptions"
-            ></v-select>
-        </label>
-        <button class="submit">Save</button>
-    </form>
+    <div class="w-100">
+        <button
+            class="btn-back bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 mr-2 rounded"
+            @click="this.$router.push('/project/' + $route.params.projectId)"
+        >
+            Back
+        </button>
+        <message-component :message="message"></message-component>
+        <form class="situation-edit-form w-1/2 my-1 flex justify-center flex-column m-auto" @submit.prevent="saveSituation">
+            <h4 v-if="isNewSituation" class="text-xl text-center font-bold">Create new case</h4>
+            <h4 v-else class="text-xl text-center font-bold">Edit Case #{{ situation.id }} <b>{{ situation.name }}</b></h4>
+            <label for="situation.name" class="font-bold m-1">
+                Name
+                <input v-model="situation.name" required class="m-2 p-1 rounded">
+            </label>
+            <label for="situation.description" class="font-bold m-1">
+                Description
+                <textarea v-model="situation.description" class="m-2 p-1 rounded"></textarea>
+            </label>
+            <label for="situation.status" class="font-bold m-1">
+                Status
+                <v-select
+                    v-model="status"
+                    :options="statusOptions"
+                ></v-select>
+            </label>
+            <button class="btn-submit bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 mr-2 rounded w-1/2">Save</button>
+        </form>
+    </div>
 </template>
 
 <script>
