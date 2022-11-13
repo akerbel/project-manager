@@ -1,0 +1,1033 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Project manager API",
+        "version": "0.1"
+    },
+    "paths": {
+        "/category": {
+            "post": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Create category",
+                "description": "Create new category.",
+                "operationId": "aa3c9ecd3dd52184f1ae2e32e9f16993",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Category name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "Category description",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/category/{id}": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get category",
+                "description": "Get category.",
+                "operationId": "b8bd0bcfe282e1094439a41dafffac7d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Category"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Completly replace old category",
+                "description": "Update category.",
+                "operationId": "1efeb314c7d30d575577ed571d7ea1ed",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Category name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "Category description",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Delete category",
+                "description": "Delete category.",
+                "operationId": "54523b19b3948961948d5c5b2b8664b9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Category id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/categories": {
+            "get": {
+                "tags": [
+                    "Categories"
+                ],
+                "summary": "Get all categories",
+                "description": "Get all categories.",
+                "operationId": "a8a6dfbe22e301cb2028e7c199407dbf",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/project": {
+            "post": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Create project",
+                "description": "Create a project.",
+                "operationId": "83ecfe517d457f10f1250140418c9340",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Project name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "Project description",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "categories",
+                        "in": "query",
+                        "description": "Array of categories",
+                        "required": true,
+                        "schema": {
+                            "type": "integer[]"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/project/{id}": {
+            "get": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Get project details",
+                "description": "Get the project.",
+                "operationId": "d114b59b3c21e0af613cd4cd08620dda",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Project id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Project"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Delete project",
+                "description": "Delete project.",
+                "operationId": "a68889b7c62ac92e5d9e1f192aacd7ae",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Project id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Update project details",
+                "description": "Update project.",
+                "operationId": "9736511be1220c89d755ad0ec4a506fa",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Project id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Project name",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "Project description",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "categories",
+                        "in": "query",
+                        "description": "Array of categories",
+                        "schema": {
+                            "type": "integer[]"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/projects": {
+            "get": {
+                "tags": [
+                    "Projects"
+                ],
+                "summary": "Get all projects",
+                "description": "Get all projects.",
+                "operationId": "f809653f743a6c4191407ad80010d2b0",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/situation": {
+            "post": {
+                "tags": [
+                    "Situations"
+                ],
+                "summary": "Create situation",
+                "description": "Create a situation.",
+                "operationId": "1d31dd02175cde51a952d4222e92d9c2",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+                        }
+                    },
+                    {
+                        "name": "project_id",
+                        "in": "query",
+                        "description": "Project id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Situation name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "Situation description",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Situation status",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/situation/{id}": {
+            "get": {
+                "tags": [
+                    "Situations"
+                ],
+                "summary": "Get situation details",
+                "description": "Get the situation.",
+                "operationId": "c33e71c66995439c70f148da78d25ecb",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Situation id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Situation"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Situations"
+                ],
+                "summary": "Delete situation",
+                "description": "Delete situation.",
+                "operationId": "19bf29919ad1c266fea7c6b13eb3357c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Situation id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Situations"
+                ],
+                "summary": "Update situation details",
+                "description": "Update situation.",
+                "operationId": "e4ecb46703ca4f71961a740fa9731891",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Situation id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Situation name",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "Situation description",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Situation status",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/situations/{project_id}": {
+            "get": {
+                "tags": [
+                    "Situations"
+                ],
+                "summary": "Get all situations of the project",
+                "description": "Get all situations of the project.",
+                "operationId": "53546cc216da09db9a3d0242f19b32ac",
+                "parameters": [
+                    {
+                        "name": "project_id",
+                        "in": "path",
+                        "description": "Project id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/user": {
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create user",
+                "description": "Create a user.",
+                "operationId": "aba1a06d2d2b0cff71466e8e8495ffd6",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "User name",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "User email",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "User password",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "minLength": 8
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/user/{id}": {
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete user",
+                "description": "Delete user.",
+                "operationId": "59d9b6f03fc0643405d49c8e5f9bdebc",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update user details",
+                "description": "Update the user.",
+                "operationId": "2d18a3953798e1eb6faadba3b6f366bc",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "User name",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "User email",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "User password",
+                        "schema": {
+                            "type": "string",
+                            "minLength": 8
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/user/{?id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get user details. If id is not pass returns details of current user.",
+                "description": "Get the user.",
+                "operationId": "75a2543241aa7e18ea539cba5025801d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "User id",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Resource Not Found"
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get all users",
+                "description": "Get all users.",
+                "operationId": "bb2caab318eadb3d78d950ddf09d4958",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header",
+                        "description": "Authorization token",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/User"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Category": {
+                "title": "Category",
+                "description": "Project category",
+                "xml": {
+                    "name": "Category"
+                }
+            },
+            "Project": {
+                "title": "Project",
+                "description": "Project model",
+                "xml": {
+                    "name": "Project"
+                }
+            },
+            "Situation": {
+                "title": "Situation",
+                "description": "Situation model",
+                "xml": {
+                    "name": "Situation"
+                }
+            },
+            "User": {
+                "title": "User",
+                "description": "User model",
+                "xml": {
+                    "name": "User"
+                }
+            }
+        }
+    }
+}

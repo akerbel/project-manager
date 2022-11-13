@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @OA\Schema(
+ *     title="Project",
+ *     description="Project model",
+ *     @OA\Xml(
+ *         name="Project"
+ *     )
+ * )
+ */
 class Project extends Model
 {
     use HasFactory;

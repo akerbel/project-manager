@@ -29,6 +29,69 @@ class SituationController extends Controller
      * @param Request $request
      *
      * @return JsonResponse
+     *
+     * @OA\Post(
+     *      path="/situation",
+     *      tags={"Situations"},
+     *      summary="Create situation",
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="Authorization token",
+     *          required=true,
+     *          in="header",
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="project_id",
+     *          description="Project id",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="name",
+     *          description="Situation name",
+     *          in="query",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="description",
+     *          description="Situation description",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="status",
+     *          description="Situation status",
+     *          in="query",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *    )
      */
     public function post(Request $request): JsonResponse
     {
@@ -75,6 +138,71 @@ class SituationController extends Controller
      * @param int $id
      *
      * @return JsonResponse
+     *
+     * @OA\Patch(
+     *      path="/situation/{id}",
+     *      tags={"Situations"},
+     *      summary="Update situation details",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Situation id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="Authorization token",
+     *          required=true,
+     *          in="header",
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="name",
+     *          description="Situation name",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="description",
+     *          description="Situation description",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="status",
+     *          description="Situation status",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      ),
+     *    )
      */
     public function patch(Request $request, int $id): JsonResponse {
         return $this->tryCatch(function() use ($request, $id) {
@@ -111,6 +239,43 @@ class SituationController extends Controller
      * @param int $id
      *
      * @return JsonResponse
+     *
+     * @OA\Delete(
+     *      path="/situation/{id}",
+     *      tags={"Situations"},
+     *      summary="Delete situation",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Situation id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="Authorization token",
+     *          required=true,
+     *          in="header",
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      ),
+     *    )
      */
     public function delete(int $id): JsonResponse
     {
@@ -128,6 +293,44 @@ class SituationController extends Controller
      * @param int $id
      *
      * @return JsonResponse
+     *
+     * @OA\Get(
+     *      path="/situation/{id}",
+     *      tags={"Situations"},
+     *      summary="Get situation details",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Situation id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="Authorization token",
+     *          required=true,
+     *          in="header",
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/Situation")
+     *       ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      ),
+     *    )
      */
     public function get(int $id): JsonResponse {
         return $this->tryCatch(function() use ($id) {
@@ -143,6 +346,39 @@ class SituationController extends Controller
      * @param int $project_id
      *
      * @return JsonResponse
+     *
+     * @OA\Get(
+     *      path="/situations/{project_id}",
+     *      tags={"Situations"},
+     *      summary="Get all situations of the project",
+     *      @OA\Parameter(
+     *          name="project_id",
+     *          description="Project id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="Authorization token",
+     *          required=true,
+     *          in="header",
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *    )
      */
     public function getAll(int $project_id): JsonResponse
     {

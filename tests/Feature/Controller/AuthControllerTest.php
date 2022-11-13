@@ -87,7 +87,7 @@ class AuthControllerTest extends AbstractApiTest
 
         $response = $this->apiCallAuthorizated($user, 'GET', $uri);
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(204, $response->getStatusCode());
         $user->refresh();
         $this->assertTrue($user->hasVerifiedEmail());
     }

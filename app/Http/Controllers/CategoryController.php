@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use OpenApi as OA;
 
 class CategoryController extends Controller
 {
@@ -26,6 +27,51 @@ class CategoryController extends Controller
      * @param Request $request
      *
      * @return JsonResponse
+     *
+     * @OA\Post(
+     *      path="/category",
+     *      tags={"Categories"},
+     *      summary="Create category",
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="Authorization token",
+     *          required=true,
+     *          in="header",
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="name",
+     *          required=true,
+     *          description="Category name",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="description",
+     *          description="Category description",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *    )
      */
     public function post(Request $request): JsonResponse
     {
@@ -53,6 +99,64 @@ class CategoryController extends Controller
      * @param int $id
      *
      * @return JsonResponse
+     *
+     * @OA\Put(
+     *      path="/category/{id}",
+     *      tags={"Categories"},
+     *      summary="Completly replace old category",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Category id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="Authorization token",
+     *          required=true,
+     *          in="header",
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="name",
+     *          required=true,
+     *          description="Category name",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="description",
+     *          description="Category description",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     *    )
      */
     public function put(Request $request, int $id): JsonResponse
     {
@@ -76,6 +180,43 @@ class CategoryController extends Controller
      * @param int $id
      *
      * @return JsonResponse
+     *
+     * @OA\Delete(
+     *      path="/category/{id}",
+     *      tags={"Categories"},
+     *      summary="Delete category",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Category id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="Authorization token",
+     *          required=true,
+     *          in="header",
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     *    )
      */
     public function delete(int $id): JsonResponse
     {
@@ -93,6 +234,44 @@ class CategoryController extends Controller
      * @param int $id
      *
      * @return JsonResponse
+     *
+     * @OA\Get(
+     *      path="/category/{id}",
+     *      tags={"Categories"},
+     *      summary="Get category",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Category id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="Authorization token",
+     *          required=true,
+     *          in="header",
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/Category")
+     *       ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      )
+     *    )
      */
     public function get(int $id): JsonResponse
     {
@@ -107,6 +286,30 @@ class CategoryController extends Controller
      * Get all categories.
      *
      * @return JsonResponse
+     *
+     * @OA\Get(
+     *      path="/categories",
+     *      tags={"Categories"},
+     *      summary="Get all categories",
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="Authorization token",
+     *          required=true,
+     *          in="header",
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *    )
      */
     public function getAll(): JsonResponse
     {

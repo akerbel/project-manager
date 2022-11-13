@@ -11,13 +11,15 @@
 - homepage - http://project-manager.local:89/
 - mailhog - http://project-manager.local:8025/
 - adminer - http://project-manager.local:8081/
+- swagger - http://project-manager.local:89/api/documentation
 
 ### Quick start
 1. Start docker containers: `./vendor/bin/sail up -d`
 2. Enter sail container: `docker exec -it project_manager-laravel.test-1 bash`
 3. Run migrations: `php artisan migrate`
 4. Run seeds: `php artisan db:seed`
-5. Have fun!
+5. Build FE assets: `npm run build` (or `npm run dev` for development)
+6. Have fun!
 
 #### Demo credentials:
 After `php artisan db:seed` you will get two users in the DB:
@@ -25,6 +27,15 @@ After `php artisan db:seed` you will get two users in the DB:
 2. Simple user - user@example.com:12345678
 
 Their emails are already verified, and you can just start working.
+
+### Swagger API docs updating
+1. Start docker containers: `./vendor/bin/sail up -d`
+2. Enter sail container: `docker exec -it project_manager-laravel.test-1 bash`
+3. Generate docs json: `php artisan l5-swagger:generate`
+4. Observe your changes at http://project-manager.local:89/api/documentation
+5. Have fun!
+
+PS. _@todo_ Model schemas need code refactoring to be visible in swagger docs.
 
 ### Running backend tests
 1. Enter sail container: `docker exec -it project_manager-laravel.test-1 bash`

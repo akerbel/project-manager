@@ -7,6 +7,7 @@ use App\Models\Project;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use OpenApi as OA;
 
 class ProjectController extends Controller
 {
@@ -28,6 +29,60 @@ class ProjectController extends Controller
      * @param Request $request
      *
      * @return JsonResponse
+     *
+     * @OA\Post(
+     *      path="/project",
+     *      tags={"Projects"},
+     *      summary="Create project",
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="Authorization token",
+     *          required=true,
+     *          in="header",
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="name",
+     *          required=true,
+     *          description="Project name",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *     @OA\Parameter(
+     *          name="description",
+     *          description="Project description",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="categories",
+     *          required=true,
+     *          description="Array of categories",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer[]"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *    )
      */
     public function post(Request $request): JsonResponse
     {
@@ -58,6 +113,71 @@ class ProjectController extends Controller
      * @param int $id
      *
      * @return JsonResponse
+     *
+     * @OA\Patch(
+     *      path="/project/{id}",
+     *      tags={"Projects"},
+     *      summary="Update project details",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Project id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="Authorization token",
+     *          required=true,
+     *          in="header",
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="name",
+     *          description="Project name",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="description",
+     *          description="Project description",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="categories",
+     *          description="Array of categories",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="integer[]"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      ),
+     *    )
      */
     public function patch(Request $request, int $id): JsonResponse {
         return $this->tryCatch(function() use ($request, $id) {
@@ -90,6 +210,43 @@ class ProjectController extends Controller
      * @param int $id
      *
      * @return JsonResponse
+     *
+     * @OA\Delete(
+     *      path="/project/{id}",
+     *      tags={"Projects"},
+     *      summary="Delete project",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Project id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="Authorization token",
+     *          required=true,
+     *          in="header",
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      ),
+     *    )
      */
     public function delete(int $id): JsonResponse
     {
@@ -107,6 +264,44 @@ class ProjectController extends Controller
      * @param $id
      *
      * @return JsonResponse
+     *
+     * @OA\Get(
+     *      path="/project/{id}",
+     *      tags={"Projects"},
+     *      summary="Get project details",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Project id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="Authorization token",
+     *          required=true,
+     *          in="header",
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/Project")
+     *       ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      ),
+     *    )
      */
     public function get($id): JsonResponse {
         return $this->tryCatch(function() use ($id) {
@@ -120,6 +315,30 @@ class ProjectController extends Controller
      * Get all projects.
      *
      * @return JsonResponse
+     *
+     * @OA\Get(
+     *      path="/projects",
+     *      tags={"Projects"},
+     *      summary="Get all projects",
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="Authorization token",
+     *          required=true,
+     *          in="header",
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *    )
      */
     public function getAll(): JsonResponse
     {

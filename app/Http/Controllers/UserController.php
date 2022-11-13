@@ -7,6 +7,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use OpenApi as OA;
 
 class UserController extends Controller
 {
@@ -28,6 +29,61 @@ class UserController extends Controller
      * @param Request $request
      *
      * @return JsonResponse
+     *
+     * @OA\Post(
+     *      path="/user",
+     *      tags={"Users"},
+     *      summary="Create user",
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="Authorization token",
+     *          required=true,
+     *          in="header",
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="name",
+     *          description="User name",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="email",
+     *          description="User email",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="password",
+     *          description="User password",
+     *          required=true,
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string",
+     *              minLength=8
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *    )
      */
     public function post(Request $request): JsonResponse
     {
@@ -62,6 +118,72 @@ class UserController extends Controller
      * @param int|null $id
      *
      * @return JsonResponse
+     *
+     * @OA\Patch(
+     *      path="/user/{id}",
+     *      tags={"Users"},
+     *      summary="Update user details",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="User id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="Authorization token",
+     *          required=true,
+     *          in="header",
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="name",
+     *          description="User name",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="email",
+     *          description="User email",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="password",
+     *          description="User password",
+     *          in="query",
+     *          @OA\Schema(
+     *              type="string",
+     *              minLength=8
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=400,
+     *          description="Bad Request",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      ),
+     *    )
      */
     public function patch(Request $request, int $id = null): JsonResponse
     {
@@ -109,6 +231,43 @@ class UserController extends Controller
      * @param int $id
      *
      * @return JsonResponse
+     *
+     * @OA\Delete(
+     *      path="/user/{id}",
+     *      tags={"Users"},
+     *      summary="Delete user",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="User id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="Authorization token",
+     *          required=true,
+     *          in="header",
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *       ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      ),
+     *    )
      */
     public function delete(int $id): JsonResponse
     {
@@ -126,6 +285,43 @@ class UserController extends Controller
      * @param int|null $id
      *
      * @return JsonResponse
+     *
+     * @OA\Get(
+     *      path="/user/{?id}",
+     *      tags={"Users"},
+     *      summary="Get user details. If id is not passed returns details of current user.",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="User id",
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="Authorization token",
+     *          required=true,
+     *          in="header",
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/User")
+     *       ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Resource Not Found"
+     *      ),
+     *    )
      */
     public function get(int $id = null): JsonResponse {
         return $this->tryCatch(function() use ($id) {
@@ -144,6 +340,31 @@ class UserController extends Controller
      * Get all users.
      *
      * @return JsonResponse
+     *
+     * @OA\Get(
+     *      path="/users",
+     *      tags={"Users"},
+     *      summary="Get all users",
+     *      @OA\Parameter(
+     *          name="Authorization",
+     *          description="Authorization token",
+     *          required=true,
+     *          in="header",
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Bearer 1|y6VIcnEFVMpQvOHStKU0dcXD8CKEdJ0nQuW3anF6"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(ref="#/components/schemas/User")
+     *       ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      ),
+     *    )
      */
     public function getAll(): JsonResponse
     {

@@ -6,6 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
+/**
+ * @OA\Schema(
+ *     title="Situation",
+ *     description="Situation model",
+ *     @OA\Xml(
+ *         name="Situation"
+ *     )
+ * )
+ */
 class Situation extends Model
 {
     use HasFactory;

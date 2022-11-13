@@ -7,6 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * @OA\Schema(
+ *     title="Category",
+ *     description="Project category",
+ *     @OA\Xml(
+ *         name="Category"
+ *     )
+ * ),
+ */
 class Category extends Model
 {
     use HasFactory;
