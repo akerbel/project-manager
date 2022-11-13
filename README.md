@@ -14,8 +14,18 @@
 - swagger - http://project-manager.local:89/api/documentation
 
 ### Quick start
-1. Start docker containers: `./vendor/bin/sail up -d`
-2. Enter sail container: `docker exec -it project_manager-laravel.test-1 bash`
+1. Build the project:
+```
+docker run --rm \
+   -u "$(id -u):$(id -g)" \
+   -v $(pwd):/var/www/html \
+   -w /var/www/html \
+   laravelsail/php81-composer:latest \
+   composer install --ignore-platform-reqs
+```
+
+2. Start docker containers: `./vendor/bin/sail up -d`
+2. Enter sail container: `docker exec -it project-manager-laravel.test-1 bash`
 3. Run migrations: `php artisan migrate`
 4. Run seeds: `php artisan db:seed`
 5. Build FE assets: `npm run build` (or `npm run dev` for development)
@@ -30,7 +40,7 @@ Their emails are already verified, and you can just start working.
 
 ### Swagger API docs updating
 1. Start docker containers: `./vendor/bin/sail up -d`
-2. Enter sail container: `docker exec -it project_manager-laravel.test-1 bash`
+2. Enter sail container: `docker exec -it project-manager-laravel.test-1 bash`
 3. Generate docs json: `php artisan l5-swagger:generate`
 4. Observe your changes at http://project-manager.local:89/api/documentation
 5. Have fun!
@@ -38,12 +48,12 @@ Their emails are already verified, and you can just start working.
 PS. _@todo_ Model schemas need code refactoring to be visible in swagger docs.
 
 ### Running backend tests
-1. Enter sail container: `docker exec -it project_manager-laravel.test-1 bash`
+1. Enter sail container: `docker exec -it project-manager-laravel.test-1 bash`
 2. Run tests: `./vendor/bin/phpunit`
 
 ### Promote user to admin
 1. Register a new user via GUI or API.
-2. Enter sail container: `docker exec -it project_manager-laravel.test-1 bash`
+2. Enter sail container: `docker exec -it project-manager-laravel.test-1 bash`
 3. Run command: `php artisan app:make-admin user@email.com`
 4. Have fun!
 
