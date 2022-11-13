@@ -14,6 +14,8 @@
 - swagger - http://project-manager.local:89/api/documentation
 
 ### Quick start
+You don't need to have PHP or Composer installed, but you need the latest Docker.
+
 1. Build the project:
 ```
 docker run --rm \
@@ -24,12 +26,14 @@ docker run --rm \
    composer install --ignore-platform-reqs
 ```
 
-2. Start docker containers: `./vendor/bin/sail up -d`
-2. Enter sail container: `docker exec -it project-manager-laravel.test-1 bash`
-3. Run migrations: `php artisan migrate`
-4. Run seeds: `php artisan db:seed`
-5. Build FE assets: `npm run build` (or `npm run dev` for development)
-6. Have fun!
+2. Prepare your environment config: `cp .env.dev .env`
+3. Start docker containers: `./vendor/bin/sail up -d`
+4. Enter sail container: `docker exec -it project-manager-laravel.test-1 bash`
+5. Run migrations: `php artisan migrate`
+6. Run seeds: `php artisan db:seed`
+7. Build node_modules: `npm install`
+8. Build FE assets: `npm run build` (or `npm run dev` for development)
+9. Have fun!
 
 #### Demo credentials:
 After `php artisan db:seed` you will get two users in the DB:
