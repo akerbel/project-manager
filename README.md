@@ -16,7 +16,15 @@
 1. Start docker containers: `./vendor/bin/sail up -d`
 2. Enter sail container: `docker exec -it project_manager-laravel.test-1 bash`
 3. Run migrations: `php artisan migrate`
-4. Have fun!
+4. Run seeds: `php artisan db:seed`
+5. Have fun!
+
+#### Demo credentials:
+After `php artisan db:seed` you will get two users in the DB:
+1. Admin user - admin@example.com:12345678
+2. Simple user - user@example.com:12345678
+
+Their emails are already verified, and you can just start working.
 
 ### Running backend tests
 1. Enter sail container: `docker exec -it project_manager-laravel.test-1 bash`
